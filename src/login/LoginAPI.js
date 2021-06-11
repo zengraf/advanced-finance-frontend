@@ -6,7 +6,7 @@ export const login = async (email, password) => {
   const response = await fetch(apiUrl + endpoint, {
     method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       user: {
@@ -19,7 +19,7 @@ export const login = async (email, password) => {
   const body = await response.json()
 
   if (response.ok) return {
-    ...body,
+    user: body,
     token: response.headers.get("Authorization")
   }
   else return {

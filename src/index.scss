@@ -1,13 +1,4 @@
-@use "~inter-ui/default" with (
-  $inter-font-display: swap,
-  $inter-font-path: '~inter-ui/Inter (web)'
-);
-@use "~inter-ui/variable" with (
-  $inter-font-display: swap,
-  $inter-font-path: '~inter-ui/Inter (web)'
-);
-
-@import "~@openfonts/pt-sans-narrow_all/index.css";
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500&family=Inter&display=swap');
 
 @tailwind base;
 @tailwind components;

@@ -8,13 +8,11 @@ function LoginForm({onSubmit, className}) {
 
   const submit = useCallback(async () => {
     const response = await login(email, password)
-    console.log(response)
     onSubmit(response)
   }, [email, onSubmit, password])
 
   return (
     <div className={`space-y-8 ${className}`}>
-      <h3 className="text-4xl">Login</h3>
       <div className="rounded-md shadow-sm -space-y-px">
         <div>
           <label htmlFor="email-address" className="sr-only">
