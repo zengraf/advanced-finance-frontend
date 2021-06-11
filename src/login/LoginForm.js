@@ -1,9 +1,16 @@
-import React, {useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {LockClosedIcon} from "@heroicons/react/solid";
+import {login} from "./LoginAPI";
 
-function LoginForm({Login, error, className}) {
+function LoginForm({onSubmit, className}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const submit = useCallback(async () => {
+    const response = await login(email, password)
+    console.log(response)
+    onSubmit(response)
+  }, [email, onSubmit, password])
 
   return (
     <div className={`space-y-8 ${className}`}>
@@ -46,6 +53,7 @@ function LoginForm({Login, error, className}) {
         <button
           type="submit"
           className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          onClick={submit}
         >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <LockClosedIcon className="h-5 w-5 text-blue-500 group-hover:text-blue-400" aria-hidden="true"/>

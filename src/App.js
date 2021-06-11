@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import LoginForm from './components/LoginForm';
+import LoginForm from './login/LoginForm';
 import {LockClosedIcon} from "@heroicons/react/solid";
+import {BrowserRouter} from "react-router-dom"
 
 function App() {
   const adminUser = {
@@ -31,9 +32,9 @@ function App() {
   }
 
   return (
-    <div className="endless-clouds  fill-current min-h-screen min-w-screen flex flex-col items-center justify-evenly">
+    <div className="endless-clouds fill-current min-h-screen min-w-screen flex flex-col items-center justify-evenly">
       <h1 className="font-display text-6xl">Finance Manager</h1>
-      <LoginForm className="w-80" />
+      <LoginForm className="w-80" onSubmit={() => {}} />
       <div className="h-12">
 
       </div>
