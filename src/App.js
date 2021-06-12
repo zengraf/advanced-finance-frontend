@@ -1,13 +1,41 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom"
-import LoginScreen from "./login/LoginScreen";
+import React, {useState, useEffect} from 'react';
+import {Switch, Route, Redirect, useHistory} from "react-router-dom"
+import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
 import localStorage from "local-storage"
 import jwtDecode from "jwt-decode";
+import Navbar from "./navbar/Navbar";
+import {LogoutIcon, CogIcon} from '@heroicons/react/solid'
+import RegistrationScreen from "./authentication/RegistrationScreen";
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({})
   const [token, setToken] = useState(null)
+
+  const history = useHistory()
+
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+  }
+
+  const navigationMenuUnauthorized = [
+    {name: "Login", path: "/login", display: true},
+    {name: "Register", path: "/register", display: true},
+    {name: "Reset password", path: "/iforgot", display: false},
+    {name: "Home", path: "/", display: true}
+  ]
+
+  const navigationMenuAuthorized = [
+    {name: "Dashboard", path: "/dashboard", display: true},
+    {name: "Transactions", path: "/transactions", display: true},
+    {name: "Currencies", path: "/currencies", display: true}
+  ]
+
+  const userMenu = [
+    [{name: "Settings", icon: CogIcon, action: function () { history.push("/settings") }}],
+    [{name: "Logout", icon: LogoutIcon, action: logout}]
+  ]
 
   useEffect(() => {
     let savedToken = localStorage.get('token')
@@ -17,41 +45,34 @@ function App() {
   useEffect(() => localStorage.set('token', token), [token])
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen container xl:max-w-7xl mx-auto py-16 space-y-16 flex flex-col justify-between items-stretch">
-        <div className="h-24 px-8 flex justify-between items-center">
-          <h1 className="font-display text-5xl">
-            <span>Finance Manager | </span>
-            <Switch>
-              <Route path="/dashboard">Dashboard</Route>
-              <Route path="/login">Login</Route>
-              <Route path="/register">Register</Route>
-              <Route path="/">Home</Route>
-            </Switch>
-          </h1>
-          <button onClick={() => setToken(null)}>Logout</button>
-          <img src="/images/avatar-default.jpg" className="w-12 h-12 rounded-full" />
-        </div>
-        <div className="flex-grow relative">
-          <Switch>
-            <Route path="/dashboard">
-              {token == null && <Redirect to="/login"/>}
-            </Route>
-            <Route path="/login">
-              {token != null && <Redirect to="/dashboard"/>}
-              <LoginScreen onSuccess={(result) => {
-                setUser(result.user)
-                setToken(result.token)
-              }}/>
-            </Route>
-            <Route path="/">
-              {token != null && <Redirect to="/dashboard"/>}
-              <HomeScreen/>
-            </Route>
-          </Switch>
-        </div>
+    <div className="min-h-screen container xl:max-w-7xl mx-auto py-16 space-y-16 flex flex-col justify-between items-stretch">
+      <Navbar navigationMenu={token != null ? navigationMenuAuthorized : navigationMenuUnauthorized} userMenu={token != null ? userMenu : null} user={user}/>
+      <div className="flex-grow relative">
+        <Switch>
+          <Route path="/dashboard">
+            {token == null && <Redirect to="/login"/>}
+          </Route>
+          <Route path="/register">
+            {token != null && <Redirect to="/dashboard"/>}
+            <RegistrationScreen onSuccess={(result) => {
+              setUser(result.user)
+              setToken(result.token)
+            }}/>
+          </Route>
+          <Route path="/login">
+            {token != null && <Redirect to="/dashboard"/>}
+            <LoginScreen onSuccess={(result) => {
+              setUser(result.user)
+              setToken(result.token)
+            }}/>
+          </Route>
+          <Route path="/">
+            {token != null && <Redirect to="/dashboard"/>}
+            <HomeScreen/>
+          </Route>
+        </Switch>
       </div>
-    </BrowserRouter>
+    </div>
   );
 }
 
