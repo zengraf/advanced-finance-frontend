@@ -29,6 +29,7 @@ function App() {
               <Route path="/">Home</Route>
             </Switch>
           </h1>
+          <button onClick={() => setToken(null)}>Logout</button>
           <img src="/images/avatar-default.jpg" className="w-12 h-12 rounded-full" />
         </div>
         <div className="flex-grow relative">
