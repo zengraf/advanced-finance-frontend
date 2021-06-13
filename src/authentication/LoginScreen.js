@@ -43,7 +43,7 @@ const LoginScreen = ({onSuccess}) => {
       </Transition>
     </div>
     <div className="hidden md:block flex-auto">
-      <img src="/images/login-splash.jpg" className="w-full h-full object-cover"/>
+      <img src="/images/login-splash.jpg" alt="Businessman with a phone" className="w-full h-full object-cover"/>
     </div>
   </div>;
 }

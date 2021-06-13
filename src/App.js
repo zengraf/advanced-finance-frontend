@@ -29,6 +29,7 @@ function App() {
   const navigationMenuAuthorized = [
     {name: "Dashboard", path: "/dashboard", display: true},
     {name: "Transactions", path: "/transactions", display: true},
+    {name: "Accounts", path: "/accounts", display: true},
     {name: "Currencies", path: "/currencies", display: true}
   ]
 
@@ -50,6 +51,9 @@ function App() {
       <div className="flex-grow relative">
         <Switch>
           <Route path="/dashboard">
+            {token == null && <Redirect to="/login"/>}
+          </Route>
+          <Route path="/accounts">
             {token == null && <Redirect to="/login"/>}
           </Route>
           <Route path="/register">

@@ -35,7 +35,7 @@ const RegistrationScreen = ({onSuccess}) => {
       </Transition>
     </div>
     <div className="hidden md:block flex-auto">
-      <img src="/images/register-splash.jpg" className="w-full h-full object-cover"/>
+      <img src="/images/register-splash.jpg" alt="Businesswoman with a laptop" className="w-full h-full object-cover"/>
     </div>
   </div>;
 }
