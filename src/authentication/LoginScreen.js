@@ -39,7 +39,7 @@ const LoginScreen = ({onSuccess}) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <div className="absolute bottom-16 px-6 py-3 rounded-md bg-red-100 text-red-500">{error}</div>
+        <div className="absolute w-80 bottom-16 px-6 py-3 rounded-md bg-red-100 text-red-500">{error}</div>
       </Transition>
     </div>
     <div className="hidden md:block flex-auto">

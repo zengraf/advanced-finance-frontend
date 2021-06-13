@@ -1,23 +1,31 @@
-import React, {useState} from 'react';
-import {Switch, Route, Redirect, useHistory} from "react-router-dom"
+import React, {useEffect, useState} from 'react';
+import {Switch, Route, Redirect} from "react-router-dom"
 import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
 import TransactionsScreen from "./transactions/TransactionsScreen";
 import localStorage from "local-storage"
 import Navbar from "./navbar/Navbar";
-import {LogoutIcon, CogIcon, CurrencyDollarIcon} from '@heroicons/react/solid'
+import {LogoutIcon, CogIcon} from '@heroicons/react/solid'
 import RegistrationScreen from "./authentication/RegistrationScreen";
 import {useToken, setToken} from "./authentication/TokenHook";
 import RandomCurrencyLoader from "./utilities/RandomCurrencyLoader";
+import SettingsDialog from "./settings/SettingsDialog";
 
 function App() {
   const [user, setUser] = useState({})
+  const [showSettings, setShowSettings] = useState(false)
 
   const token = useToken()
-  const history = useHistory()
+
+  useEffect(() => setUser(localStorage.get('user')), [])
+
+  useEffect(() => {
+    if (user != null && user.username != null)
+    localStorage.set('user', user)
+  }, [user])
 
   const logout = () => {
-    setToken({loading: false, data: null})
+    setToken({})
     localStorage.clear()
   }
 
@@ -36,11 +44,7 @@ function App() {
   ]
 
   const userMenu = [
-    [{
-      name: "Settings", icon: CogIcon, action: function () {
-        history.push("/settings")
-      }
-    }],
+    [{name: "Settings", icon: CogIcon, action: () => setShowSettings(true)}],
     [{name: "Logout", icon: LogoutIcon, action: logout}]
   ]
 
@@ -52,6 +56,15 @@ function App() {
           <RandomCurrencyLoader className="w-16 h-16 fill-current text-gray-700"/>
         </div>
         : <>
+          <SettingsDialog
+            isOpen={showSettings}
+            onClose={() => setShowSettings(false)}
+            onSave={(newUser) => {
+              setShowSettings(false)
+              setUser(newUser)
+            }}
+            user={user}
+          />
           <Navbar navigationMenu={token.data != null ? navigationMenuAuthorized : navigationMenuUnauthorized}
                   userMenu={token.data != null ? userMenu : null} user={user}/>
           <div className="flex-grow relative">

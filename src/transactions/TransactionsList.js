@@ -4,28 +4,39 @@ import {index} from './TransactionAPI';
 import {useToken} from "../authentication/TokenHook";
 import InfiniteScroll from "react-infinite-scroll-component";
 import RandomCurrencyLoader from "../utilities/RandomCurrencyLoader";
+import {SwitchVerticalIcon, ArrowSmUpIcon} from "@heroicons/react/solid";
 
-// const transactions = [
-//   { id: 50,
-//     date: format(new Date(), 'MM/dd/yyyy'),
-//     account: {id: 2, name: "Revolut", 
-//     currency: {name: "Zloty", code: "PLN"}}, 
-//     area: {id: 1, name: "Life"}, 
-//     category: {id: 2, name: "Grocery"}, 
-//     amount: 130.30, 
-//     description: "Zabka XD"}
-// ]
+
+const headers = [
+  {name: "ID", key: 'id', sortable: true},
+  {name: "Date", key: 'date', sortable: true},
+  {name: "Account", key: 'accounts.name', sortable: true},
+  {name: "Area", key: 'areas.name', sortable: true},
+  {name: "Category", key: 'categories.name', sortable: true},
+  {name: "Amount", key: 'amount', sortable: true},
+  {name: "Currency", key: 'accounts.currency_id', sortable: true},
+  {name: "Description", key: 'description', sortable: false},
+  {name: "", key: 'actions', sortable: false},
+]
 
 function TransactionsList() {
   const [transactions, setTransactions] = useState([])
   const [pages, setPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
+  const [sortBy, setSortBy] = useState(headers[0].key)
+  const [ascending, setAscending] = useState(true)
+
   const token = useToken()
+
+  const reload = () => {
+    setCurrentPage(1)
+    setTransactions([])
+  }
 
   useEffect(() => {
     let ignore = false
 
-    index(token.data, currentPage).then(result => {
+    index(token.data, currentPage, sortBy, ascending ? 'asc' : 'desc').then(result => {
       if (ignore) return
 
       if (result.hasOwnProperty("error")) {
@@ -39,7 +50,7 @@ function TransactionsList() {
     return () => {
       ignore = true;
     }
-  }, [currentPage, token])
+  }, [ascending, currentPage, sortBy, token])
 
   return <InfiniteScroll
     next={() => setCurrentPage(prevPage => prevPage + 1)}
@@ -52,32 +63,31 @@ function TransactionsList() {
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
       <tr>
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Area
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Currency
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
-        </th>
-        <th scope="col"
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        </th>
+        {headers.map(header =>
+          <th
+            key={header.key}
+            scope="col"
+            className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${header.sortable ? 'cursor-pointer' : ''}`}
+            onClick={() => {
+              reload()
+              if (sortBy === header.key)
+                setAscending(value => !value)
+              else {
+                setSortBy(header.key)
+                setAscending(true)
+              }
+            }}
+          >
+            {header.name}
+            {header.sortable &&
+              (sortBy === header.key
+                  ? <ArrowSmUpIcon
+                    className={`ml-1 h-4 w-4 inline-block text-gray-600 transition-transform transform ${ascending ? '' : 'rotate-180'}`}/>
+                  : <SwitchVerticalIcon className="ml-2 h-4 w-4 inline-block text-gray-600"/>
+              )
+            }
+          </th>
+        )}
       </tr>
       </thead>
       <tbody>
