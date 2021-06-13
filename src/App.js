@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Switch, Route, Redirect, useHistory} from "react-router-dom"
 import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
+import TransactionsScreen from "./transactions/TransactionsScreen";
 import localStorage from "local-storage"
 import jwtDecode from "jwt-decode";
 import Navbar from "./navbar/Navbar";
@@ -52,6 +53,10 @@ function App() {
         <Switch>
           <Route path="/dashboard">
             {token == null && <Redirect to="/login"/>}
+          </Route>
+          <Route path="/transactions">
+            {token == null && <Redirect to="/login"/>}
+            <TransactionsScreen />
           </Route>
           <Route path="/accounts">
             {token == null && <Redirect to="/login"/>}
