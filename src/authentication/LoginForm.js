@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react'
 import {LockClosedIcon} from "@heroicons/react/solid";
-import {login} from "./LoginAPI";
+import {login} from "./AuthenticationAPI";
 
 function LoginForm({onSubmit, className}) {
   const [email, setEmail] = useState('')
@@ -56,7 +56,7 @@ function LoginForm({onSubmit, className}) {
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <LockClosedIcon className="h-5 w-5 text-blue-500 group-hover:text-blue-400" aria-hidden="true"/>
               </span>
-          Sign in
+          Login
         </button>
       </div>
     </form>
