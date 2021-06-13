@@ -2,12 +2,18 @@ import {apiUrl} from "../constants"
 
 export const endpoint = "/transactions"
 
-export const index = async () => {
-  const response = await fetch(apiUrl + endpoint)
-  const body = await response.json()
+export const index = async (token, page = 1) => {
+  const response = await fetch(`${apiUrl}${endpoint}?page=${page}`, {
+    headers: {
+      "Authorization": token
+    }
+  })
 
-  if (response.ok) return body
+  if (response.ok) return {
+    items: await response.json(),
+    pages: parseInt(response.headers.get("Total-Pages"))
+  }
   else return {
-    error: body.error
+    error: await response.text()
   }
 }

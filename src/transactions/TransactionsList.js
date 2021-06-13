@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { format } from 'date-fns'
+import React, {useState, useEffect} from 'react'
 import TransactionItem from "./TransactionItem";
-import { index } from './TransactionAPI';
-
+import {index} from './TransactionAPI';
+import {useToken} from "../authentication/TokenHook";
+import InfiniteScroll from "react-infinite-scroll-component";
+import RandomCurrencyLoader from "../utilities/RandomCurrencyLoader";
 
 // const transactions = [
 //   { id: 50,
@@ -17,42 +18,70 @@ import { index } from './TransactionAPI';
 
 function TransactionsList() {
   const [transactions, setTransactions] = useState([])
+  const [pages, setPages] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
+  const token = useToken()
 
-  useEffect(async () => {
-    const result = await index()
+  useEffect(() => {
+    let ignore = false
 
-    if (result.hasOwnProperty("error")){
-      //Display error
-    } else {
-      setTransactions(result)
+    index(token.data, currentPage).then(result => {
+      if (ignore) return
+
+      if (result.hasOwnProperty("error")) {
+        //Display error
+      } else {
+        setPages(result.pages)
+        setTransactions(prevTransactions => [...prevTransactions, ...result.items])
+      }
+    })
+
+    return () => {
+      ignore = true;
     }
-  }, [])
+  }, [currentPage, token])
 
-  return<div className="flex flex-col">
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                        <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Area</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Currency</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>  
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map(transaction => (<TransactionItem transaction={transaction}/>))}
-                    </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-    </div>
+  return <InfiniteScroll
+    next={() => setCurrentPage(prevPage => prevPage + 1)}
+    hasMore={currentPage < pages}
+    loader={<div className="h-16 w-full flex justify-center items-center">
+      <RandomCurrencyLoader className="w-8 h-8 text-gray-700 fill-current"/>
+    </div>}
+    dataLength={transactions.length}
+  >
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+      <tr>
+        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Area
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Currency
+        </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {transactions.map(transaction => (<TransactionItem key={transaction.id} transaction={transaction}/>))}
+      </tbody>
+    </table>
+  </InfiniteScroll>
 }
 
 export default TransactionsList;
