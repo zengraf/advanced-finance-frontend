@@ -75,6 +75,9 @@ function TransactionsList() {
         <th scope="col"
             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description
         </th>
+        <th scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        </th>
       </tr>
       </thead>
       <tbody>
