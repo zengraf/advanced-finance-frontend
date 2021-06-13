@@ -2,6 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom"
 import LoginScreen from "./login/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
+import TransactionsScreen from "./transactions/TransactionsScreen";
 import localStorage from "local-storage"
 import jwtDecode from "jwt-decode";
 
@@ -26,6 +27,7 @@ function App() {
               <Route path="/dashboard">Dashboard</Route>
               <Route path="/login">Login</Route>
               <Route path="/register">Register</Route>
+              <Route path="/transactions">Transactions</Route>
               <Route path="/">Home</Route>
             </Switch>
           </h1>
@@ -43,6 +45,10 @@ function App() {
                 setUser(result.user)
                 setToken(result.token)
               }}/>
+            </Route>
+            <Route path="/transactions">
+              {token != null && <Redirect to="/transactions"/>}
+              <TransactionsScreen />
             </Route>
             <Route path="/">
               {token != null && <Redirect to="/dashboard"/>}
