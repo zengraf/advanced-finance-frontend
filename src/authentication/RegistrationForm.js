@@ -11,7 +11,7 @@ const RegistrationForm = ({onSubmit, className}) => {
   const submit = useCallback(async (e) => {
     e.preventDefault()
     const response = await register(username, email, password, passwordConfirmation)
-    onSubmit(response)
+    onSubmit && onSubmit(response)
   }, [email, onSubmit, password, passwordConfirmation, username])
 
   return (

@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import localStorage from "local-storage";
 import jwtDecode from "jwt-decode";
 import {singletonHook} from "react-singleton-hook";
 
@@ -11,14 +10,15 @@ const useTokenImpl = () => {
   const [token, setToken] = useState(init)
 
   useEffect(() => {
-    let savedToken = localStorage.get('token')
+    let savedToken = localStorage.getItem('token')
     if (savedToken != null && jwtDecode(savedToken).exp > Math.floor(Date.now() / 1000))
       setToken({data: savedToken})
     else
       setToken({data: null})
   }, [])
   useEffect(() => {
-    localStorage.set('token', token.data)
+    if (token.data != null)
+      localStorage.setItem('token', token.data)
   }, [token])
 
   globalSetToken = setToken

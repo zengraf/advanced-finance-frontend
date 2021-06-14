@@ -3,13 +3,13 @@ import {Switch, Route, Redirect} from "react-router-dom"
 import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
 import TransactionsScreen from "./transactions/TransactionsScreen";
-import localStorage from "local-storage"
 import Navbar from "./navbar/Navbar";
 import {LogoutIcon, CogIcon} from '@heroicons/react/solid'
 import RegistrationScreen from "./authentication/RegistrationScreen";
 import {useToken, setToken} from "./authentication/TokenHook";
 import RandomCurrencyLoader from "./utilities/RandomCurrencyLoader";
 import SettingsDialog from "./settings/SettingsDialog";
+import {show} from "./settings/UserAPI";
 
 function App() {
   const [user, setUser] = useState({})
@@ -17,11 +17,30 @@ function App() {
 
   const token = useToken()
 
-  useEffect(() => setUser(localStorage.get('user')), [])
+  useEffect(() => setUser(JSON.parse(localStorage.getItem('user'))), [])
+
+  useEffect(() => {
+    let ignore = false
+
+    if (token.data != null) {
+      show(token.data).then(result => {
+        if (ignore) return
+
+        if (result.hasOwnProperty("error")) {
+
+        } else {
+          setUser(result)
+        }
+      })
+    }
+    return () => {
+      ignore = true
+    }
+  }, [token])
 
   useEffect(() => {
     if (user != null && user.username != null)
-    localStorage.set('user', user)
+      localStorage.setItem('user', JSON.stringify(user))
   }, [user])
 
   const logout = () => {
