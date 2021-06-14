@@ -16,7 +16,7 @@ const headers = [
   {name: "Amount", key: 'amount', sortable: true},
   {name: "Currency", key: 'accounts.currency_id', sortable: true},
   {name: "Description", key: 'description', sortable: false},
-  {name: "", key: 'actions', sortable: false},
+  // {name: "", key: 'actions', sortable: false},
 ]
 
 function TransactionsList() {
@@ -69,6 +69,8 @@ function TransactionsList() {
             scope="col"
             className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${header.sortable ? 'cursor-pointer' : ''}`}
             onClick={() => {
+              if (!header.sortable) return
+
               reload()
               if (sortBy === header.key)
                 setAscending(value => !value)
@@ -82,8 +84,8 @@ function TransactionsList() {
             {header.sortable &&
               (sortBy === header.key
                   ? <ArrowSmUpIcon
-                    className={`ml-1 h-4 w-4 inline-block text-gray-600 transition-transform transform ${ascending ? '' : 'rotate-180'}`}/>
-                  : <SwitchVerticalIcon className="ml-2 h-4 w-4 inline-block text-gray-600"/>
+                    className={`ml-1 h-4 w-4 inline-block transition-transform transform ${ascending ? '' : 'rotate-180'}`}/>
+                  : <SwitchVerticalIcon className="ml-2 h-4 w-4 inline-block"/>
               )
             }
           </th>

@@ -76,22 +76,25 @@ function App() {
                 {token.data == null && <Redirect to="/login?redirect_to=/transactions"/>}
                 <TransactionsScreen/>
               </Route>
+              <Route path="/currencies">
+                {token.data == null && <Redirect to="/login?redirect_to=/currencies"/>}
+              </Route>
               <Route path="/accounts">
                 {token.data == null && <Redirect to="/login?redirect_to=/accounts"/>}
               </Route>
               <Route path="/register">
-                {token.data != null && <Redirect to="/dashboard"/>}
+                {token.data != null && <Redirect to="/transactions"/>}
                 <RegistrationScreen/>
               </Route>
               <Route path="/login">
-                {token.data != null && <Redirect to="/dashboard"/>}
+                {token.data != null && <Redirect to="/transactions"/>}
                 <LoginScreen onSuccess={(result) => {
                   setUser(result.user)
                   setToken({data: result.token})
                 }}/>
               </Route>
               <Route path="/">
-                {token.data != null && <Redirect to="/dashboard"/>}
+                {token.data != null && <Redirect to="/transactions"/>}
                 <HomeScreen/>
               </Route>
             </Switch>
