@@ -3,6 +3,7 @@ import {Switch, Route, Redirect} from "react-router-dom"
 import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
 import TransactionsScreen from "./transactions/TransactionsScreen";
+import AccountsScreen from "./accounts/AccountsScreen";
 import Navbar from "./navbar/Navbar";
 import {LogoutIcon, CogIcon} from '@heroicons/react/solid'
 import RegistrationScreen from "./authentication/RegistrationScreen";
@@ -100,6 +101,7 @@ function App() {
               </Route>
               <Route path="/accounts">
                 {token.data == null && <Redirect to="/login?redirect_to=/accounts"/>}
+                <AccountsScreen/>
               </Route>
               <Route path="/register">
                 {token.data != null && <Redirect to="/transactions"/>}

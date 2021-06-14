@@ -5,7 +5,7 @@ export const endpoint = "/accounts"
 export const index = async (token) => {
   const response = await fetch(apiUrl + endpoint, {
     headers: {
-      'Authentication': token,
+      'Authorization': token,
     }
   })
   const body = await response.json()
