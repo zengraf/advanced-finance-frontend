@@ -18,27 +18,27 @@ const HomeScreen = () => <div className="flex flex-col items-stretch space-y-16"
     style={{height: '32rem'}}
   >
     <SwiperSlide>
-      <img className="w-full h-full object-cover object-top filter brightness-75" src="/images/carousel-1.jpg"/>
+      <img className="w-full h-full object-cover object-top filter brightness-75" src="/images/carousel-1.jpg" alt="Wall with a sign 'Until debt tear us apart'"/>
       <div className="absolute sm:max-w-lg p-12 sm:right-16 inset-y-32 sm:inset-y-40 flex flex-col justify-center bg-gray-100 sm:rounded-lg shadow text-left text-3xl text-gray-900 font-wide font-light">
         <p>Get a clear picture of all of your assets and expenses in one secure place.</p>
       </div>
     </SwiperSlide>
     <SwiperSlide>
-      <img className="w-full h-full object-cover filter brightness-75" src="/images/carousel-2.jpg"/>
+      <img className="w-full h-full object-cover filter brightness-75" src="/images/carousel-2.jpg" alt="A man with a tablet"/>
       <div className="absolute sm:max-w-sm p-12 sm:left-16 inset-y-28 sm:inset-y-28 flex flex-col justify-center bg-gray-100 sm:rounded-lg shadow text-left font-wide text-gray-900">
         <h2 className="text-4xl font-light">Reach your goals faster</h2>
         <p className="text-xl mt-5">Centralize all your accounts so you can learn, manage, and improve your financial status.</p>
       </div>
     </SwiperSlide>
     <SwiperSlide>
-      <img className="w-full h-full object-cover filter brightness-75" src="/images/carousel-3.jpg"/>
+      <img className="w-full h-full object-cover filter brightness-75" src="/images/carousel-3.jpg" alt="Jar with spare change"/>
       <div className="absolute sm:max-w-sm p-12 sm:right-16 inset-y-24 flex flex-col justify-center bg-gray-100 sm:rounded-lg shadow text-left font-wide text-gray-900">
         <h2 className="text-4xl font-light">Start saving today</h2>
         <p className="text-xl mt-5">Set up budget limits to control your day-to-day spending across categories like groceries, food, rent or tech.</p>
       </div>
     </SwiperSlide>
     <SwiperSlide>
-      <img className="w-full h-full object-cover filter brightness-75" src="/images/carousel-4.jpg"/>
+      <img className="w-full h-full object-cover filter brightness-75" src="/images/carousel-4.jpg" alt="Analytics graph"/>
       <div className="absolute sm:max-w-sm p-12 sm:left-16 inset-y-32 flex flex-col justify-center bg-gray-100 sm:rounded-lg shadow text-left font-wide text-gray-900">
         <h2 className="text-4xl font-light">Stay organized</h2>
         <p className="text-xl mt-5">Centralize all your accounts so you can learn, manage, and improve your financial status.</p>

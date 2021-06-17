@@ -6,7 +6,7 @@ const SimpleSelect = ({id, value, options, identify, display, onChange, classNam
   <Listbox value={value} onChange={onChange}>
     <div className={`relative ${className}`}>
       <Listbox.Button id={id} className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 shadow-sm cursor-default focus:outline-none sm:text-sm">
-        <span className="block truncate">{display(value)}</span>
+        <span className="block truncate">{value && display(value)}</span>
         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
           <SelectorIcon
             className="w-5 h-5 text-gray-400"
@@ -25,7 +25,7 @@ const SimpleSelect = ({id, value, options, identify, display, onChange, classNam
           {options != null ?
             options.map((option, optionIdx) => (
               <Listbox.Option
-                key={identify != null ? identify(option) : optionIdx}
+                key={identify != null && option != null ? identify(option) : optionIdx}
                 className={({active}) =>
                   `${active ? 'text-blue-900 bg-blue-100' : 'text-gray-900'}
                               cursor-default select-none relative py-2 pl-10 pr-4`
@@ -34,10 +34,10 @@ const SimpleSelect = ({id, value, options, identify, display, onChange, classNam
               >
                 {({active}) => (
                   <>
-                    <span className={`${identify(option) === identify(value) ? 'font-medium' : 'font-normal'} block truncate`}>
-                      {display(option)}
+                    <span className={`${option && value && identify(option) === identify(value) ? 'font-medium' : 'font-normal'} block truncate`}>
+                      {option && display(option)}
                     </span>
-                    {identify(option) === identify(value)
+                    {option && value && identify(option) === identify(value)
                       ? <span
                         className={`${active ? 'text-blue-600' : 'text-blue-600'} absolute inset-y-0 left-0 flex items-center pl-3`}
                       >

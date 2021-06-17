@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Switch, Route, Redirect} from "react-router-dom"
 import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
@@ -11,6 +11,7 @@ import {useToken, setToken} from "./authentication/TokenHook";
 import RandomCurrencyLoader from "./utilities/RandomCurrencyLoader";
 import SettingsDialog from "./settings/SettingsDialog";
 import {setUser} from "./settings/UserHook";
+import CurrenciesScreen from "./currencies/CurrenciesScreen";
 
 function App() {
   const [showSettings, setShowSettings] = useState(false)
@@ -70,6 +71,7 @@ function App() {
               </Route>
               <Route path="/currencies">
                 {token.data == null && <Redirect to="/login?redirect_to=/currencies"/>}
+                <CurrenciesScreen/>
               </Route>
               <Route path="/accounts">
                 {token.data == null && <Redirect to="/login?redirect_to=/accounts"/>}

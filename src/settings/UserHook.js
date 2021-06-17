@@ -10,9 +10,12 @@ const useUserImpl = () => {
   const [user, setUser] = useState(dataInit)
   const token = useToken()
 
-  useEffect(() => setUser(JSON.parse(localStorage.getItem('user'))), [])
+  useEffect(() => setUser(JSON.parse(localStorage.getItem('user')) || {}), [])
   useEffect(() => dataEffect(token, show, setUser), [token])
-  useEffect(() => localStorage.setItem('user', JSON.stringify(user)), [user])
+  useEffect(() => {
+    if (user != null && user.data != null)
+      localStorage.setItem('user', JSON.stringify(user));
+  }, [user])
 
   globalSetUser = setUser
 

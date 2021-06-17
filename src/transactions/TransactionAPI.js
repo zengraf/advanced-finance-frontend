@@ -10,7 +10,7 @@ export const index = async (token, page = 1, sortBy, direction) => {
   })
 
   if (response.ok) return {
-    items: await response.json(),
+    items: await response.json().then(items => items.map(item => ({...item, amount: parseFloat(item.amount)}))),
     pages: parseInt(response.headers.get("Total-Pages"))
   }
   else return {
@@ -30,7 +30,7 @@ export const post = async (token, data) => {
 
   const body = await response.json()
 
-  if (response.ok) return body
+  if (response.ok) return {...body, amount: parseFloat(body.amount)}
   else return {
     error: body.error || body.errors
   }
@@ -48,7 +48,7 @@ export const patch = async (token, id, data) => {
 
   const body = await response.json()
 
-  if (response.ok) return body
+  if (response.ok) return {...body, amount: parseFloat(body.amount)}
   else return {
     error: body.error || body.errors
   }

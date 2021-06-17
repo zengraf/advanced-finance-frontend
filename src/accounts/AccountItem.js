@@ -9,7 +9,7 @@ export default function AccountItem({account}) {
       <div className="text-sm text-gray-900">{account.name}</div>
     </td>
     <td className="px-6 py-4 whitespace-nowrap">
-      <div className="text-sm text-gray-900">{account.amount}</div>
+      <div className="text-sm text-gray-900">{account.amount.toFixed(2)}</div>
     </td>
     <td className="px-6 py-4 whitespace-nowrap">
       <div className="text-sm text-gray-900">{account.currency.code}</div>

@@ -9,7 +9,7 @@ export const index = async (token) => {
 
   const body = await response.json()
 
-  if (response.ok) return body
+  if (response.ok) return body.map(item => ({...item, amount: parseFloat(item.amount)}))
   else return {error: body.error || body.errors || "Unknown error"}
 }
 
@@ -22,6 +22,9 @@ export const summary = async (token, currencyId) => {
 
   const body = await response.json()
 
-  if (response.ok) return body
+  if (response.ok) return {
+    totals: body.totals.map(total => ({...total, value: parseFloat(total.value)})),
+    grand_total: {...body.grand_total, value: parseFloat(body.grand_total.value)}
+  }
   else return {error: body.error || body.errors || "Unknown error"}
 }

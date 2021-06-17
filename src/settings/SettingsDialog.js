@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DefaultAvatar from "../utilities/DefaultAvatar";
 import {update} from "./UserAPI";
 import {useToken} from "../authentication/TokenHook";
@@ -9,8 +9,10 @@ const SettingsDialog = ({isOpen, onClose, onSave}) => {
   const user = useUser()
   const token = useToken()
 
-  const [username, setUsername] = useState(user.data != null ? user.data.username : '')
+  const [username, setUsername] = useState('')
   const [newAvatar, setNewAvatar] = useState(null)
+
+  useEffect(() => user.data != null && setUsername(user.data.username), [user])
 
   return <SimpleDialog
     isOpen={isOpen}

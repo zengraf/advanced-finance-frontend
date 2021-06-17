@@ -3,11 +3,7 @@ import AccountsList from "./AccountsList";
 import {summary} from "./AccountsAPI";
 import {useToken} from "../authentication/TokenHook";
 import {useUser} from "../settings/UserHook";
-
-const summaryHeaders = [
-  {name: "Currency", key: 'currency.code'},
-  {name: "Total", key: 'total'},
-]
+import SimpleSelect from "../utilities/SimpleSelect";
 
 const AccountsScreen = () => {
   const token = useToken()
@@ -37,21 +33,28 @@ const AccountsScreen = () => {
   }, [grandTotalCurrency, token])
 
   return <div className="w-full grid grid-cols-3 gap-12">
-    <div className="col-span-2 shadow overflow-y-hidden overflow-x-auto sm:rounded-xl bg-white">
-      <AccountsList/>
+    <div className="col-span-2">
+      <div className="shadow overflow-y-hidden overflow-x-auto sm:rounded-xl bg-white">
+        <AccountsList/>
+      </div>
     </div>
     <div>
       <div className="shadow overflow-y-hidden overflow-x-auto sm:rounded-xl bg-white">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full table-fixed divide-y divide-gray-200">
           <thead className="bg-gray-50">
           <tr>
-            {summaryHeaders.map(header =>
-              <th
-                key={header.key}
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                {header.name}</th>
-            )}
+            <th
+              scope="col"
+              className="px-6 py-3 w-1/4 text-left text-xs font-medium text-gray-500 uppercase"
+            >
+              Currency
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+            >
+              Total
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -63,12 +66,25 @@ const AccountsScreen = () => {
                 >
                   {total.currency.code}
                 </th>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{total.value}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{total.value.toFixed(2)}</td>
               </tr>
             ))
           }
           </tbody>
         </table>
+      </div>
+      <div className="mt-12 px-6 py-4 shadow sm:rounded-xl bg-white">
+        <h3 className="text-left text-xs font-medium text-gray-500 uppercase">Grand total</h3>
+        <div className="mt-3 flex items-center space-x-8">
+          <SimpleSelect
+            value={grandTotalCurrency}
+            onChange={setGrandTotalCurrency}
+            options={user.data && user.data.currencies}
+            display={currency => <span className="text-sm font-medium text-gray-800 uppercase tracking-wider">{currency.code}</span>}
+            identify={currency => currency.number}
+          />
+          <span className="text-sm text-gray-900">{summaryData && summaryData.grand_total.value.toFixed(2)}</span>
+        </div>
       </div>
     </div>
   </div>
