@@ -1,6 +1,7 @@
 import React from 'react'
+import {PencilIcon} from "@heroicons/react/solid";
 
-export default function AccountItem({account}) {
+export default function AccountItem({account, onEdit}) {
 
   return <tr key={account.id}>
     <th scope="row"
@@ -13,6 +14,9 @@ export default function AccountItem({account}) {
     </td>
     <td className="px-6 py-4 whitespace-nowrap">
       <div className="text-sm text-gray-900">{account.currency.code}</div>
+    </td>
+    <td className="px-6 py-4 whitespace-nowrap cursor-pointer text-sm font-normal text-blue-600 hover:text-blue-900 focus:outline-none flex justify-end items-center" onClick={onEdit}>
+      <PencilIcon className="h-4 w-4 mr-1 inline-block fill-current"/> Edit
     </td>
   </tr>
 }
