@@ -43,16 +43,10 @@ const AccountsScreen = () => {
         <table className="min-w-full table-fixed divide-y divide-gray-200">
           <thead className="bg-gray-50">
           <tr>
-            <th
-              scope="col"
-              className="px-6 py-3 w-1/4 text-left text-xs font-medium text-gray-500 uppercase"
-            >
+            <th scope="col" className="px-6 py-3 w-1/4 text-left text-xs font-medium text-gray-500 uppercase">
               Currency
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
-            >
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Total
             </th>
           </tr>
@@ -61,9 +55,7 @@ const AccountsScreen = () => {
           {summaryData &&
             summaryData.totals.map(total => (
               <tr key={`currency-${total.currency.id}`}>
-                <th scope="row"
-                    className="px-6 py-3 text-left text-sm font-medium text-gray-800 uppercase tracking-wider"
-                >
+                <th scope="row" className="px-6 py-3 text-left text-sm font-medium text-gray-800 uppercase tracking-wider">
                   {total.currency.code}
                 </th>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{total.value.toFixed(2)}</td>
@@ -75,13 +67,14 @@ const AccountsScreen = () => {
       </div>
       <div className="mt-12 px-6 py-4 shadow sm:rounded-xl bg-white">
         <h3 className="text-left text-xs font-medium text-gray-500 uppercase">Grand total</h3>
-        <div className="mt-3 flex items-center space-x-8">
+        <div className="mt-3 flex items-center space-x-5">
           <SimpleSelect
             value={grandTotalCurrency}
             onChange={setGrandTotalCurrency}
             options={user.data && user.data.currencies}
             display={currency => <span className="text-sm font-medium text-gray-800 uppercase tracking-wider">{currency.code}</span>}
             identify={currency => currency.number}
+            className="w-24"
           />
           <span className="text-sm text-gray-900">{summaryData && summaryData.grand_total.value.toFixed(2)}</span>
         </div>
