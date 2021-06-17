@@ -3,8 +3,10 @@ import {Link, useLocation} from "react-router-dom";
 import {Menu, Transition} from '@headlessui/react'
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import DefaultAvatar from "../utilities/DefaultAvatar";
+import {useUser} from "../settings/UserHook";
 
-const Navbar = ({navigationMenu, userMenu, user}) => {
+const Navbar = ({navigationMenu, userMenu}) => {
+  const user = useUser()
   const location = useLocation()
   const current = navigationMenu.find(entry => new RegExp(`^${entry.path}.*`).exec(location.pathname))
 
@@ -54,8 +56,8 @@ const Navbar = ({navigationMenu, userMenu, user}) => {
     <Menu as="div" className="h-12 relative">
       <Menu.Button
         className="group flex items-center space-x-6 focus:outline-none">
-        {user != null && user.avatar_url
-          ? <img src={user.avatar_url} alt="avatar"
+        {user.data != null && user.data.avatar_url
+          ? <img src={user.data.avatar_url} alt="avatar"
                className="w-12 h-12 object-cover rounded-full opacity-80 group-hover:opacity-100 group-focus:ring-4 group-focus:ring-gray-300"/>
           : <DefaultAvatar className="w-12 h-12 text-gray-400 group-focus:ring-4 group-focus:ring-gray-300"/>
         }
@@ -71,7 +73,7 @@ const Navbar = ({navigationMenu, userMenu, user}) => {
       >
         <Menu.Items
           className="absolute z-20 -right-8 w-56 mt-4 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <p className="pb-2 pt-2.5 px-3.5">Welcome, <span className="font-medium">{user && user.username}</span></p>
+          <p className="pb-2 pt-2.5 px-3.5">Welcome, <span className="font-medium">{user.data && user.data.username}</span></p>
           {userMenu.map((section, index) => <div key={index} className="px-1 py-1">
             {section.map(entry => <Menu.Item key={entry.name}>
               {({active}) => (

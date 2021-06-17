@@ -8,9 +8,15 @@ export async function show(token) {
   const body = response.json()
 
   if (response.ok) return body
-  else return {
-    error: body.error
-  }
+  else return {error: body.error || body.errors || "Unknown error"}
+}
+
+export async function currencies(token) {
+  const response = await fetch(`${apiUrl}${endpoint}/currencies`, {headers: {'Authorization': token}})
+  const body = response.json()
+
+  if (response.ok) return body
+  else return {error: body.error || body.errors || "Unknown error"}
 }
 
 export async function update(token, data) {
@@ -33,7 +39,5 @@ export async function update(token, data) {
   const body = response.data
 
   if (response.status === 200) return body
-  else return {
-    error: body.error || body.errors
-  }
+  else return {error: body.error || body.errors || "Unknown error"}
 }

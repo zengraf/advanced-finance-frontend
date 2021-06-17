@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     fontFamily: {
       'display': ['Assistant'],
+      'wide': ['Poppins', 'sans-serif'],
       'sans': ['Inter', 'sans-serif']
     },
     extend: {

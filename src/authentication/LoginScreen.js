@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 const LoginScreen = ({onSuccess}) => {
   const [error, setError] = useState(null)
 
-  return <div className="absolute w-full md:h-full pt-16 pb-8 md:p-0 md:flex justify-between items-stretch sm:rounded-xl bg-white shadow overflow-hidden">
+  return <div className="w-full md:h-full pt-16 pb-8 md:p-0 md:flex justify-between items-stretch sm:rounded-xl bg-white shadow overflow-hidden">
     <div className="mx-12 h-full flex flex-col justify-center">
       <div className="hidden md:block h-24 mb-12">
       </div>

@@ -10,39 +10,12 @@ import RegistrationScreen from "./authentication/RegistrationScreen";
 import {useToken, setToken} from "./authentication/TokenHook";
 import RandomCurrencyLoader from "./utilities/RandomCurrencyLoader";
 import SettingsDialog from "./settings/SettingsDialog";
-import {show} from "./settings/UserAPI";
+import {setUser} from "./settings/UserHook";
 
 function App() {
-  const [user, setUser] = useState({})
   const [showSettings, setShowSettings] = useState(false)
 
   const token = useToken()
-
-  useEffect(() => setUser(JSON.parse(localStorage.getItem('user'))), [])
-
-  useEffect(() => {
-    let ignore = false
-
-    if (token.data != null) {
-      show(token.data).then(result => {
-        if (ignore) return
-
-        if (result.hasOwnProperty("error")) {
-
-        } else {
-          setUser(result)
-        }
-      })
-    }
-    return () => {
-      ignore = true
-    }
-  }, [token])
-
-  useEffect(() => {
-    if (user != null && user.username != null)
-      localStorage.setItem('user', JSON.stringify(user))
-  }, [user])
 
   const logout = () => {
     setToken({})
@@ -70,7 +43,7 @@ function App() {
 
   return (
     <div
-      className="min-h-screen container xl:max-w-7xl mx-auto py-16 space-y-16 flex flex-col justify-between items-stretch">
+      className="h-screen container xl:max-w-7xl mx-auto py-16 space-y-16 flex flex-col justify-between items-stretch">
       {token.loading
         ? <div className="absolute top-0 left-0 h-screen w-screen flex justify-center items-center">
           <RandomCurrencyLoader className="w-16 h-16 fill-current text-gray-700"/>
@@ -83,11 +56,10 @@ function App() {
               setShowSettings(false)
               setUser(newUser)
             }}
-            user={user}
           />
           <Navbar navigationMenu={token.data != null ? navigationMenuAuthorized : navigationMenuUnauthorized}
-                  userMenu={token.data != null ? userMenu : null} user={user}/>
-          <div className="flex-grow relative">
+                  userMenu={token.data != null ? userMenu : null}/>
+          <div className="flex-grow relative pb-16">
             <Switch>
               <Route path="/dashboard">
                 {token.data == null && <Redirect to="/login?redirect_to=/dashboard"/>}

@@ -7,7 +7,7 @@ import {ArrowNarrowLeftIcon} from "@heroicons/react/solid"
 const RegistrationScreen = ({onSuccess}) => {
   const [error, setError] = useState(null)
 
-  return <div className="absolute w-full md:h-full py-8 md:p-0 md:flex justify-between items-stretch sm:rounded-xl bg-white shadow overflow-hidden">
+  return <div className="w-full md:h-full py-8 md:p-0 md:flex justify-between items-stretch sm:rounded-xl bg-white shadow overflow-hidden">
     <div className="mx-12 h-full flex flex-col justify-center">
       <Link className="mb-8 py-2 text-lg text-blue-900 flex items-center" to="/login">
         <ArrowNarrowLeftIcon className="h-5 w-5 mr-2"/>

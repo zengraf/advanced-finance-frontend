@@ -13,8 +13,10 @@ const useTokenImpl = () => {
     let savedToken = localStorage.getItem('token')
     if (savedToken != null && jwtDecode(savedToken).exp > Math.floor(Date.now() / 1000))
       setToken({data: savedToken})
-    else
-      setToken({data: null})
+    else {
+      setToken({})
+      localStorage.clear()
+    }
   }, [])
   useEffect(() => {
     if (token.data != null)
