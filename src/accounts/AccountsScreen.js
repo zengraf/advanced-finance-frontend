@@ -32,8 +32,8 @@ const AccountsScreen = () => {
     }
   }, [grandTotalCurrency, token])
 
-  return <div className="w-full grid grid-cols-3 gap-12">
-    <div className="col-span-2">
+  return <div className="w-full space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-12">
+    <div className="lg:col-span-2">
       <div className="shadow overflow-y-hidden overflow-x-auto sm:rounded-xl bg-white">
         <AccountsList/>
       </div>

@@ -88,8 +88,8 @@ const CurrencyRatesList = ({currency}) => {
     </div>
     }
     {currencyDetails.error &&
-    <div className="h-16 w-full flex items-center text-sm bg-gray-100 text-gray-600">
-      <p>{currencyDetails.error}</p>
+    <div className="h-12 w-full flex items-center text-sm bg-gray-100 text-gray-600">
+      <p className="px-6">{currencyDetails.error}</p>
     </div>
     }
   </>

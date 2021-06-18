@@ -5,7 +5,8 @@ module.exports = {
     fontFamily: {
       'display': ['Assistant'],
       'wide': ['Poppins', 'sans-serif'],
-      'sans': ['Inter', 'sans-serif']
+      'sans': ['Inter', 'sans-serif'],
+      'mono': ['Fira Mono', 'monospace']
     },
     extend: {
       width: {

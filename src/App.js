@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Switch, Route, Redirect} from "react-router-dom"
+import {Switch, Route, Redirect, useHistory} from "react-router-dom"
 import LoginScreen from "./authentication/LoginScreen";
 import HomeScreen from "./home/HomeScreen";
 import TransactionsScreen from "./transactions/TransactionsScreen";
@@ -12,11 +12,13 @@ import RandomCurrencyLoader from "./utilities/RandomCurrencyLoader";
 import SettingsDialog from "./settings/SettingsDialog";
 import {setUser} from "./settings/UserHook";
 import CurrenciesScreen from "./currencies/CurrenciesScreen";
+import ConfirmationScreen from "./authentication/ConfirmationScreen";
 
 function App() {
   const [showSettings, setShowSettings] = useState(false)
 
   const token = useToken()
+  const history = useHistory()
 
   const logout = () => {
     setToken({})
@@ -27,6 +29,7 @@ function App() {
     {name: "Login", path: "/login", display: true},
     {name: "Register", path: "/register", display: true},
     {name: "Reset password", path: "/iforgot", display: false},
+    {name: "Email confirmation", path: "/users/confirmation", display: false},
     {name: "Home", path: "/", display: true}
   ]
 
@@ -74,12 +77,22 @@ function App() {
                 <CurrenciesScreen/>
               </Route>
               <Route path="/accounts">
-                {token.data == null && <Redirect to="/login?redirect_to=/accounts"/>}
-                <AccountsScreen/>
+                {token.data == null
+                  ? <Redirect to="/login?redirect_to=/accounts"/>
+                  : <AccountsScreen/>
+                }
+              </Route>
+              <Route path="/users/confirmation">
+                {token.data != null
+                  ? <Redirect to="/transactions"/>
+                  : <ConfirmationScreen/>
+                }
               </Route>
               <Route path="/register">
-                {token.data != null && <Redirect to="/transactions"/>}
-                <RegistrationScreen/>
+                {token.data != null
+                  ? <Redirect to="/transactions"/>
+                  : <RegistrationScreen onSuccess={() => history.push('/users/confirmation')}/>
+                }
               </Route>
               <Route path="/login">
                 {token.data != null && <Redirect to="/transactions"/>}
