@@ -31,11 +31,11 @@ function AccountsList() {
             {header.name}</th>
         )}
         <th
-            scope="col"
-            onClick={() => setShowNew(true)}
-            className="relative flex items-center justify-end px-6 py-3 cursor-pointer text-right text-sm font-medium text-blue-600 hover:text-blue-900"
-          >
-            <PlusIcon className="h-5 w-5 inline-block fill-current"/> Add
+          scope="col"
+          onClick={() => setShowNew(true)}
+          className="mt-0.5 relative flex items-center justify-end px-6 py-2.5 cursor-pointer text-right text-sm font-medium text-blue-600 hover:text-blue-900"
+        >
+          <PlusIcon className="h-5 w-5 inline-block fill-current"/> Add
         </th>
       </tr>
       </thead>
