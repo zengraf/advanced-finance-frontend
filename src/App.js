@@ -13,6 +13,7 @@ import SettingsDialog from "./settings/SettingsDialog";
 import {setUser} from "./settings/UserHook";
 import CurrenciesScreen from "./currencies/CurrenciesScreen";
 import ConfirmationScreen from "./authentication/ConfirmationScreen";
+import AnalyticsScreen from "./analytics/AnalyticsScreen";
 
 function App() {
   const [showSettings, setShowSettings] = useState(false)
@@ -37,7 +38,8 @@ function App() {
     {name: "Dashboard", path: "/dashboard", display: true},
     {name: "Transactions", path: "/transactions", display: true},
     {name: "Accounts", path: "/accounts", display: true},
-    {name: "Currencies", path: "/currencies", display: true}
+    {name: "Currencies", path: "/currencies", display: true},
+    {name: "Analytics", path: "/analytics", display: true}
   ]
 
   const userMenu = [
@@ -80,6 +82,12 @@ function App() {
                 {token.data == null
                   ? <Redirect to="/login?redirect_to=/accounts"/>
                   : <AccountsScreen/>
+                }
+              </Route>
+              <Route path="/analytics">
+                {token.data == null
+                  ? <Redirect to="/login?redirect_to=/analytics"/>
+                  : <AnalyticsScreen/>
                 }
               </Route>
               <Route path="/users/confirmation">
