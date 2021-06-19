@@ -35,7 +35,6 @@ function App() {
   ]
 
   const navigationMenuAuthorized = [
-    {name: "Dashboard", path: "/dashboard", display: true},
     {name: "Transactions", path: "/transactions", display: true},
     {name: "Accounts", path: "/accounts", display: true},
     {name: "Currencies", path: "/currencies", display: true},
@@ -67,9 +66,6 @@ function App() {
                   userMenu={token.data != null ? userMenu : null}/>
           <div className="flex-grow relative pb-16">
             <Switch>
-              <Route path="/dashboard">
-                {token.data == null && <Redirect to="/login?redirect_to=/dashboard"/>}
-              </Route>
               <Route path="/transactions">
                 {token.data == null && <Redirect to="/login?redirect_to=/transactions"/>}
                 <TransactionsScreen/>
